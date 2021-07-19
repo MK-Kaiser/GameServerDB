@@ -1,0 +1,16 @@
+/* hide bullet/line item markers: https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type*/
+ul {
+    list-style-type: none;
+    text-align: center;
+
+    }
+
+h1, h2 {
+text-align: center;
+}
+
+body {
+    background-color: lightslategray;
+    }
+
+
