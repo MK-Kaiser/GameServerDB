@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <link rel="stylesheet" href="static/css/style.css">
+
+</head>
+<body>
+    <div>
+<fieldset>
+    <ul>
+        <li class="menu"> <a href="/">Home</a> </li>
+        <li class="menu"> <a href="users">Users</a> </li>
+        <li class="menu"> <a href="characters">Characters</a> </li>
+        <li class="menu"> <a href="guilds">Guilds</a> </li>
+        <li class="menu"> <a href="professions">Professions</a> </li>
+        <li class="menu"> <a href="recipes">Recipes</a> </li>
+    </ul>
+</fieldset>
+    </div>
+    
+    <fieldset>
+        <h1> Find User </h1>
+        <form action="/users" method="get">
+            <label for="character_name">Search for a User by character name</label>
+            <input type="text" name="character_name">
+            <input type="submit" value="Search" id="submit">
+        </form>
+
+            <h1> Add User </h1>
+            <form action="/users" method="post">
+                <label for="email">email address</label>
+                <input type="text" name="email">
+                <label for="firstname">firstname</label>
+                <input type="text" name="firstname">
+                <label for="lastname">lastname</label>
+                <input type="text" name="lastname">
+                <label for="password">password</label>
+                <input type="password" name="password">
+            <input type="submit" value="Add" id="submit">
+            </form>
+            {{result}}
+
+    </fieldset>
+
+        <fieldset>
+                <h1>Users</h1>
+        
+                <table>
+                    <thead>
+                        <tr>
+                            <th> First Name  </th>
+                            <th> Last Name  </th>
+                            <th> Character Names </th>
+                            <th> Email </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Bob</td>
+                            <td>Bobberson</td>
+                            <td>char1, char2, char3</td>
+                            <td>bob@bobby.com</td>
+                            <td><button onclick="window.location.href='/update_users/1';">Update</button></td>
+                            <td><button>Remove</button></td>
+                        </tr>
+
+                        <tr>
+                            <td>Billy</td>
+                            <td>Bob</td>
+                            <td></td>
+                            <td>bill@billy.com</td>
+                            <td><button onclick="window.location.href='/update_users/2';">Update</button></td>
+                            <td><button>Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+</body>
+</html>
+

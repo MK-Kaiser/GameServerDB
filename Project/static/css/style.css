@@ -1,0 +1,25 @@
+
+h1, h2 {
+    text-align: center;
+}
+body {
+    background-color: lightslategray;
+    text-align: center;
+
+}
+    
+/* inline: https://developer.mozilla.org/en-US/docs/Web/CSS/display */ 
+li.menu {
+    display: inline; 
+    background-color: grey;
+}
+    
+li.menu a {
+    color: black;
+    padding: 15px 20px;
+    }
+    
+
+li.menu a:hover {
+    background-color: lightslategray;
+    }

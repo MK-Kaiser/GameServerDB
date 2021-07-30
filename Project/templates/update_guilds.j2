@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guilds</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+
+</head>
+<body>
+    <fieldset>
+        <h1> Change Character's Guild </h1>
+        <form action="/update_guilds/{{id}}" method="post">
+            <label for="character">Character Name</label>
+            <input type="text" name="character">
+            <label for="guild">Guild Name</label>
+            <input type="text" name="guild">
+            <input type="submit" value="Update" id="submit">
+        </form>
+    </fieldset>
+                
+</body>
+</html>
+
+

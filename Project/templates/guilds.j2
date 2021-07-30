@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guilds</title>
+    <link rel="stylesheet" href="static/css/style.css">
+
+</head>
+<body>
+    <div>
+<fieldset>
+    <ul>
+        <li class="menu"> <a href="/">Home</a> </li>
+        <li class="menu"> <a href="users">Users</a> </li>
+        <li class="menu"> <a href="characters">Characters</a> </li>
+        <li class="menu"> <a href="guilds">Guilds</a> </li>
+        <li class="menu"> <a href="professions">Professions</a> </li>
+        <li class="menu"> <a href="recipes">Recipes</a> </li>
+    </ul>
+</fieldset>
+    </div>
+    <fieldset>
+        <h1> Find Characters by Guild </h1>
+        <form action="/guilds" method="get">
+            <label for="guild">Search for a guild</label>
+            <input type="text" name="guild">
+            <input type="submit" value="Search" id="submit">
+        </form>
+
+            <h1> Add Character to Guild </h1>
+            <form action="/guilds" method="post">
+                <label for="character">Character Name</label>
+                <input type="text" name="character">
+                <label for="guild">Guild Name</label>
+                <input type="text" name="guild">
+                <input type="submit" value="Add" id="submit">
+            </form>
+
+
+
+    </fieldset>
+                <h1>Guilds</h1>
+                {{result}}
+        
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Guild Name  </th>
+                            <th>  Member Count  </th>
+                            <th> </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Guild1</td>
+                            <td>100</td>
+                            <td><button onclick="window.location.href='/update_guilds/1';">Update</button></td>
+                            <td><button>Remove</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+</body>
+</html>
+
+
