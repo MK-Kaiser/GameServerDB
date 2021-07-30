@@ -10,7 +10,6 @@
 </head>
 <body>
     <div>
-<fieldset>
     <ul>
         <li class="menu"> <a href="/">Home</a> </li>
         <li class="menu"> <a href="users">Users</a> </li>
@@ -19,16 +18,9 @@
         <li class="menu"> <a href="professions">Professions</a> </li>
         <li class="menu"> <a href="recipes">Recipes</a> </li>
     </ul>
-</fieldset>
     </div>
-    <fieldset>
-        <h1> Find Characters by Guild </h1>
-        <form action="/guilds" method="get">
-            <label for="guild">Search for a guild</label>
-            <input type="text" name="guild">
-            <input type="submit" value="Search" id="submit">
-        </form>
 
+    <fieldset>
             <h1> Add Character to Guild </h1>
             <form action="/guilds" method="post">
                 <label for="character">Character Name</label>
@@ -38,11 +30,19 @@
                 <input type="submit" value="Add" id="submit">
             </form>
 
-
-
     </fieldset>
+
+    <fieldset>
+        <h1> Find Characters by Guild </h1>
+        <form action="/guilds" method="get">
+            <label for="guild">Search for a guild</label>
+            <input type="text" name="guild">
+            <input type="submit" value="Search" id="submit">
+        </form>
+    </fieldset>
+
+    <fieldset>
                 <h1>Guilds</h1>
-                {{result}}
         
                 <table>
                     <thead>

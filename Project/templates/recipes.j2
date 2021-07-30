@@ -10,7 +10,6 @@
 </head>
 <body>
     <div>
-<fieldset>
     <ul>
         <li class="menu"> <a href="/">Home</a> </li>
         <li class="menu"> <a href="users">Users</a> </li>
@@ -19,31 +18,9 @@
         <li class="menu"> <a href="professions">Professions</a> </li>
         <li class="menu"> <a href="recipes">Recipes</a> </li>
     </ul>
-</fieldset>
     </div>
 
     <fieldset>
-        <div>
-        <h1> Find a Recipe </h1>
-        <form action="/recipes" method="get">
-            <label for="recipe_names">Recipe name</label>
-            <input type="text" name="recipe_names">
-            <label for="ingredients">Ingredient</label>
-            <input type="text" name="ingredients">
-
-            <label for="professions">Select Profession</label>
-            <select name="professions" id="professions">
-                <option value="smith">Smith</option>
-                <option value="alchemist">Alchemist</option>
-                <option value="butcher">Butcher</option>
-                <option value="baker">Baker</option>
-                <option value="engineer">Engineer</option>
-            </select>
-            <input type="submit" value="Search" id="submit">
-        </form>
-        </div>
-    
-        {{result}}
         <div>
             <h1> Add a Recipe </h1>
             <form action="/recipes" method="post">
@@ -64,7 +41,29 @@
             </form>
 
             </div>
-    </fieldset
+    </fieldset>
+
+        <fieldset>
+        <div>
+        <h1> Find a Recipe </h1>
+        <form action="/recipes" method="get">
+            <label for="recipe_names">Recipe name</label>
+            <input type="text" name="recipe_names">
+            <label for="ingredients">Ingredient</label>
+            <input type="text" name="ingredients">
+
+            <label for="professions">Select Profession</label>
+            <select name="professions" id="professions">
+                <option value="smith">Smith</option>
+                <option value="alchemist">Alchemist</option>
+                <option value="butcher">Butcher</option>
+                <option value="baker">Baker</option>
+                <option value="engineer">Engineer</option>
+            </select>
+            <input type="submit" value="Search" id="submit">
+        </form>
+        </div>
+    </fieldset>
 
 
             <fieldset>

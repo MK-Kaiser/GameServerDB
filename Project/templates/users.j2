@@ -10,7 +10,6 @@
 </head>
 <body>
     <div>
-<fieldset>
     <ul>
         <li class="menu"> <a href="/">Home</a> </li>
         <li class="menu"> <a href="users">Users</a> </li>
@@ -19,17 +18,9 @@
         <li class="menu"> <a href="professions">Professions</a> </li>
         <li class="menu"> <a href="recipes">Recipes</a> </li>
     </ul>
-</fieldset>
     </div>
     
-    <fieldset>
-        <h1> Find User </h1>
-        <form action="/users" method="get">
-            <label for="character_name">Search for a User by character name</label>
-            <input type="text" name="character_name">
-            <input type="submit" value="Search" id="submit">
-        </form>
-
+        <fieldset>
             <h1> Add User </h1>
             <form action="/users" method="post">
                 <label for="email">email address</label>
@@ -42,9 +33,20 @@
                 <input type="password" name="password">
             <input type="submit" value="Add" id="submit">
             </form>
-            {{result}}
 
     </fieldset>
+
+    <fieldset>
+        <h1> Find User </h1>
+        <form action="/users" method="get">
+            <label for="character_name">Search for a User by character name</label>
+            <input type="text" name="character_name">
+            <input type="submit" value="Search" id="submit">
+        </form>
+
+    </fieldset>
+
+
 
         <fieldset>
                 <h1>Users</h1>

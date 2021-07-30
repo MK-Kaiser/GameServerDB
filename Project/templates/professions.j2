@@ -11,7 +11,6 @@
 <body>
     
     <div>
-<fieldset>
     <ul>
         <li class="menu"> <a href="/">Home</a> </li>
         <li class="menu"> <a href="users">Users</a> </li>
@@ -20,8 +19,26 @@
         <li class="menu"> <a href="professions">Professions</a> </li>
         <li class="menu"> <a href="recipes">Recipes</a> </li>
     </ul>
-</fieldset>
    </div>
+
+    <fieldset>
+
+        <h1> Add Characters to a Profession </h1>
+        <form action="/professions" method="post">
+            <label for="name">Character Name</label>
+            <input type="text" name="name">
+            <label for="professions">Select Profession</label>
+            <select name="professions" id="professions">
+                <option value="smith">Smith</option>
+                <option value="alchemist">Alchemist</option>
+                <option value="butcher">Butcher</option>
+                <option value="baker">Baker</option>
+                <option value="engineer">Engineer</option>
+            </select>
+        <input type="submit" value="Add" id="submit">
+        </form>
+    </fieldset>
+
     <fieldset>
         <h1> Find Characters by Profession </h1>
         <form action="/professions" method="get">
@@ -37,23 +54,8 @@
             <input type="submit" value="Search" id="submit">
         </form>            
         
-        {{result}}
+    </fieldset>
 
-            <h1> Add Characters to a Profession </h1>
-            <form action="/professions" method="post">
-                <label for="name">Character Name</label>
-                <input type="text" name="name">
-                <label for="professions">Select Profession</label>
-                <select name="professions" id="professions">
-                    <option value="smith">Smith</option>
-                    <option value="alchemist">Alchemist</option>
-                    <option value="butcher">Butcher</option>
-                    <option value="baker">Baker</option>
-                    <option value="engineer">Engineer</option>
-                </select>
-            <input type="submit" value="Add" id="submit">
-        </form>
-    </fieldset
 
             <fieldset>
                 <h1>Characters by Profession</h1>
