@@ -31,34 +31,34 @@ LEFT JOIN GameGuilds ON GameCharacters_Guilds.guildId = GameGuilds.guildId;
 -----------------------------------------------------
 
 -- GameUsers manipulation (Add, Edit, Delete). Only allowing editing password of existing user.
-INSERT INTO GameUsers (firstName, lastName, userEmail, password) VALUES (:firstNameInput, :lastNameInput, :userEmailInput, :passwordInput)
-UPDATE GameUsers SET password = :passwordUpdateInput
-DELETE FROM GameUsers WHERE userEmail = :userEmailDeleteInput
+INSERT INTO GameUsers (firstName, lastName, userEmail, password) VALUES (:firstNameInput, :lastNameInput, :userEmailInput, :passwordInput);
+UPDATE GameUsers SET password = :passwordUpdateInput;
+DELETE FROM GameUsers WHERE userEmail = :userEmailDeleteInput;
 
 -- GameCharacters manipulation (Add, Edit, Delete)
-INSERT INTO GameCharacters (charName, userId) VALUES (:charNameInput, (SELECT userId FROM GameUsers WHERE userEmail = :userEmailInput))
-UPDATE GameCharacters SET level = :levelUpdateInput, charName = :charNameUpdateInput
-DELETE FROM GameCharacters WHERE charName = :charNameDeleteInput
+INSERT INTO GameCharacters (charName, userId) VALUES (:charNameInput, (SELECT userId FROM GameUsers WHERE userEmail = :userEmailInput));
+UPDATE GameCharacters SET level = :levelUpdateInput, charName = :charNameUpdateInput;
+DELETE FROM GameCharacters WHERE charName = :charNameDeleteInput;
 
 -- GameProfessions manipulation (Add, Edit, Delete). Do we want to allow add by anyone for this project?
-INSERT INTO GameProfessions (professionName) VALUES (:professionNameInput)
-UPDATE GameProfessions SET professionName = :professionNameUpdateInput
-DELETE FROM GameProfessions WHERE professionName = :professionNameDeleteInput
+INSERT INTO GameProfessions (professionName) VALUES (:professionNameInput);
+UPDATE GameProfessions SET professionName = :professionNameUpdateInput;
+DELETE FROM GameProfessions WHERE professionName = :professionNameDeleteInput;
 
 -- GameGuilds manipulation (Add, Edit, Delete)
-INSERT INTO GameGuilds (guildName) VALUES (:guildNameInput)
-UPDATE GameGuilds SET guildName = :guildNameUpdateInput
-DELETE FROM GameGuilds WHERE guildName = :guildNameDeleteInput
+INSERT INTO GameGuilds (guildName) VALUES (:guildNameInput);
+UPDATE GameGuilds SET guildName = :guildNameUpdateInput;
+DELETE FROM GameGuilds WHERE guildName = :guildNameDeleteInput;
 
 -- Create a new profession recipe (should only work if profession has already been inserted in Profession table)
-INSERT INTO GameProfessionsRecipes (recipeName, professionId, levelRequirement) VALUES (:recipeNameInput, (SELECT professionId FROM GameProfessions WHERE professionName = :professionNameInput), :levelRequirementInput)
-UPDATE GameProfessionsRecipe SET recipeName = :recipeNameUpdateInput, professionId = :professionIdUpdateInput, levelRequirement = :levelRequirementUpdateInput
-DELETE FROM GameProfessionsRecipe WHERE recipeName = :recipeNameDeleteInput
+INSERT INTO GameProfessionsRecipes (recipeName, professionId, levelRequirement) VALUES (:recipeNameInput, (SELECT professionId FROM GameProfessions WHERE professionName = :professionNameInput), :levelRequirementInput);
+UPDATE GameProfessionsRecipe SET recipeName = :recipeNameUpdateInput, professionId = :professionIdUpdateInput, levelRequirement = :levelRequirementUpdateInput;
+DELETE FROM GameProfessionsRecipe WHERE recipeName = :recipeNameDeleteInput;
 
 -- Add a profession to a character (profession must exist in profession table first)
-INSERT INTO GameCharacters_Professions (charName, professionId) VALUES (:charNameInput, (SELECT professionId FROM GameProfessions WHERE professionName = :professionNameInput))
-DELETE FROM GameCharacters_Professions WHERE charName = :charNameProfessionDeleteInput
+INSERT INTO GameCharacters_Professions (charName, professionId) VALUES (:charNameInput, (SELECT professionId FROM GameProfessions WHERE professionName = :professionNameInput));
+DELETE FROM GameCharacters_Professions WHERE charName = :charNameProfessionDeleteInput AND professionId = :professionIdDeleteInput;
 
 -- Add a character to a guild (guild must exist in guild table first)
-INSERT INTO GameCharacters_Guilds (charName, guildId) VALUES (:charNameInput, (SELECT guildId FROM GameGuilds WHERE guildName = :guildNameInput))
-DELETE FROM GameCharacters_Guilds WHERE charName = :charNameGuildDeleteInput
+INSERT INTO GameCharacters_Guilds (charName, guildId) VALUES (:charNameInput, (SELECT guildId FROM GameGuilds WHERE guildName = :guildNameInput));
+DELETE FROM GameCharacters_Guilds WHERE charName = :charNameGuildDeleteInput AND guildId = guildIdDeleteInput;

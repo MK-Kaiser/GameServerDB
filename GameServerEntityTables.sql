@@ -27,7 +27,7 @@ CREATE TABLE GameUsers(
 -- Future constraints: charName length, level min/max
 CREATE TABLE GameCharacters(
     charName varchar(255) NOT NULL UNIQUE,
-    userId int(11),
+    userId int(11) NOT NULL,
     level int(11) DEFAULT 1,
     FOREIGN KEY (userId) REFERENCES GameUsers(userId) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY(charName)
@@ -43,7 +43,6 @@ CREATE TABLE GameGuilds(
 CREATE TABLE GameProfessions(
     professionId int(11) NOT NULL AUTO_INCREMENT,
     professionName varchar(255) NOT NULL UNIQUE,
-    CHECK (professionName = "Alchemy" OR professionName = "Blacksmithing" OR professionName = "Enchanting" OR professionName = "Engineering" OR professionName = "Herbalism" OR professionName = "Mining"),
     PRIMARY KEY(professionId)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -51,7 +50,7 @@ CREATE TABLE GameProfessions(
 CREATE TABLE GameProfessionsRecipes(
     recipeId int(11) NOT NULL AUTO_INCREMENT,
     recipeName varchar(255) NOT NULL UNIQUE,
-    professionId int(11),
+    professionId int(11) DEFAULT NULL,
     levelRequirement int(11) DEFAULT 1,
     FOREIGN KEY (professionId) REFERENCES GameProfessions(professionId) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY(recipeId)
@@ -61,19 +60,19 @@ CREATE TABLE GameProfessionsRecipes(
 -- Create Intersection tables
 -----------------------------------------------------
 CREATE TABLE GameCharacters_Professions(
-    charName varchar(255),
-    professionId int(11),
+    charName varchar(255) NOT NULL,
+    professionId int(11) NOT NULL,
     FOREIGN KEY (charName) REFERENCES GameCharacters(charName) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (professionId) REFERENCES GameProfessions(professionId) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT characterProfession UNIQUE (charName, professionId)
+    PRIMARY KEY (charName, professionId)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE GameCharacters_Guilds(
-    charName varchar(255),
-    guildId int(11),
+    charName varchar(255) NOT NULL,
+    guildId int(11) NOT NULL,
     FOREIGN KEY (charName) REFERENCES GameCharacters(charName) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (guildId) REFERENCES GameGuilds(guildId) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT characterGuild UNIQUE (charName, guildId)
+    PRIMARY KEY (charName, guildId)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -86,7 +85,6 @@ INSERT INTO GameUsers (firstName, lastName, userEmail, password) VALUES ("Jo", "
 INSERT INTO GameUsers (firstName, lastName, userEmail, password) VALUES ("samantha", "jones", "sjones@yahoo.com", "otherPassword32");
 INSERT INTO GameUsers (firstName, lastName, userEmail, password) VALUES ("Bradley", "Boseman", "bbose@gmail.com", "bbosem");
 INSERT INTO GameUsers (firstName, lastName, userEmail, password) VALUES ("henry", "hoover", "hehoo@hotmail.com", "theyllneverguessit");
-INSERT INTO GameUsers (firstName, lastName, userEmail, password) VALUES ("henrieta", "Hoovering", "hehoo@hotmail.com", "theyllneverguessittwice"); -- duplicate email, should fail
 INSERT INTO GameUsers (firstName, lastName, userEmail, password) VALUES ("Bob", "bobert", "bobob@specialdomain.com", "complexpassword");
 UNLOCK TABLES;
 
@@ -165,21 +163,9 @@ LOCK TABLES GameCharacters_Guilds WRITE;
 LOCK TABLES GameCharacters WRITE;
 LOCK TABLES GameGuilds WRITE;
 INSERT INTO GameCharacters_Guilds (charName, guildId) VALUES ("Zezoo", (SELECT guildId FROM GameGuilds WHERE guildName = "The Green Hornets"));
-INSERT INTO GameCharacters_Guilds (charName, guildId) VALUES ("Zezoo", (SELECT guildId FROM GameGuilds WHERE guildName = "The Green Hornets")); -- duplicate, should fail
 INSERT INTO GameCharacters_Guilds (charName, guildId) VALUES ("Ryu", (SELECT guildId FROM GameGuilds WHERE guildName = "The Green Hornets"));
 INSERT INTO GameCharacters_Guilds (charName, guildId) VALUES ("Goliath", (SELECT guildId FROM GameGuilds WHERE guildName = "The Best Guild"));
 INSERT INTO GameCharacters_Guilds (charName, guildId) VALUES ("Ken", (SELECT guildId FROM GameGuilds WHERE guildName = "Knights of Azmodan"));
 INSERT INTO GameCharacters_Guilds (charName, guildId) VALUES ("Ken", (SELECT guildId FROM GameGuilds WHERE guildName = "Manchester United"));
 INSERT INTO GameCharacters_Guilds (charName, guildId) VALUES ("Ken", (SELECT guildId FROM GameGuilds WHERE guildName = "The Best Guild"));
 UNLOCK TABLES;
-
--- Show all populated tables
-/*
-SELECT * FROM GameUsers;
-SELECT * FROM GameCharacters;
-SELECT * FROM GameProfessions;
-SELECT * FROM GameProfessionsRecipes;
-SELECT * FROM GameGuilds;
-SELECT * FROM GameCharacters_Guilds;
-SELECT * FROM GameCharacters_Professions;
-*/
