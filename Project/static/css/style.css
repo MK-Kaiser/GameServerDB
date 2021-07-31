@@ -1,25 +1,33 @@
 
-h1, h2 {
-    text-align: center;
-}
 body {
-    background-color: lightslategray;
+    background-color: grey;
     text-align: center;
-
 }
     
 /* inline: https://developer.mozilla.org/en-US/docs/Web/CSS/display */ 
 li.menu {
     display: inline; 
-    background-color: grey;
+    background-color: black;
 }
     
 li.menu a {
-    color: black;
+    color: white;
     padding: 15px 20px;
-    }
+    text-decoration: none;
+}
     
 
 li.menu a:hover {
+    background-color: grey;
+    text-shadow: 2px 2px #070707;
+}
+
+/* auto scaling: https://www.w3schools.com/css/css3_images.asp */
+img {
+    max-width: 100%;
+    height: auto;
+  }
+
+fieldset {
     background-color: lightslategray;
-    }
+}
