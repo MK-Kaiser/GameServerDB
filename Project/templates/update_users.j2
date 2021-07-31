@@ -14,13 +14,13 @@
         <h1> Update User </h1>
         <form action="/users" method="post">
             <label for="email">email address</label>
-            <input type="text" name="email">
+            <input type="text" name="userEmail" value={{ row.userEmail }}>
             <label for="firstname">firstname</label>
-            <input type="text" name="firstname">
+            <input type="text" name="firstName" value={{ row.firstName }}>
             <label for="lastname">lastname</label>
-            <input type="text" name="lastname">
+            <input type="text" name="lastName" value={{ row.lastName }}>
             <label for="password">password</label>
-            <input type="password" name="password">
+            <input type="password" name="password"  value="{{ row.password }}">
         <input type="submit" value="Update" id="submit">
         </form>
     </fieldset>

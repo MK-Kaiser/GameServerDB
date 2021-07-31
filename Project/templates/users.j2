@@ -23,15 +23,15 @@
         <fieldset>
             <h1> Add User </h1>
             <form action="/users" method="post">
-                <label for="email">email address</label>
-                <input type="text" name="email">
-                <label for="firstname">firstname</label>
-                <input type="text" name="firstname">
-                <label for="lastname">lastname</label>
-                <input type="text" name="lastname">
+                <label for="userEmail">email address</label>
+                <input type="text" name="userEmail">
+                <label for="firstName">firstname</label>
+                <input type="text" name="firstName">
+                <label for="lastName">lastname</label>
+                <input type="text" name="lastName">
                 <label for="password">password</label>
                 <input type="password" name="password">
-            <input type="submit" value="Add" id="submit">
+                <input type="submit" value="Add" id="submit">
             </form>
 
     </fieldset>
@@ -47,38 +47,31 @@
     </fieldset>
 
 
-
         <fieldset>
                 <h1>Users</h1>
         
-                <table>
+                <table border='2'>
                     <thead>
                         <tr>
+                            <th> Email  </th>
                             <th> First Name  </th>
-                            <th> Last Name  </th>
-                            <th> Character Names </th>
-                            <th> Email </th>
+                            <th> Last Name </th>
+                            <th> Password </th>
+                            <th> </th>
                             <th> </th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for row in rows %}
                         <tr>
-                            <td>Bob</td>
-                            <td>Bobberson</td>
-                            <td>char1, char2, char3</td>
-                            <td>bob@bobby.com</td>
-                            <td><button onclick="window.location.href='/update_users/1';">Update</button></td>
-                            <td><button>Remove</button></td>
+                            <td> {{ row.userEmail }} </td>
+                            <td> {{ row.firstName }} </td>
+                            <td> {{ row.lastName }} </td>
+                            <td> {{ row.password }} </td>
+                            <td><button onclick="window.location.href='/update_users/{{ row.userId }}';">Update</button></td>
+                            <td><button onclick="window.location.href='/delete_users/{{ row.userId }}';">Remove</button></td>
                         </tr>
-
-                        <tr>
-                            <td>Billy</td>
-                            <td>Bob</td>
-                            <td></td>
-                            <td>bill@billy.com</td>
-                            <td><button onclick="window.location.href='/update_users/2';">Update</button></td>
-                            <td><button>Remove</button></td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </fieldset>

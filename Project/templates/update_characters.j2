@@ -13,8 +13,10 @@
     <fieldset>
             <h1> Update Character </h1>
             <form action="/update_characters/{{id}}" method="post">
-            <label for="character_name">Change Character Name</label>
-            <input type="text" name="character_name">
+            <label for="charName">Change Character Name</label>
+            <input type="text" name="charName" value={{ row.charName }}>
+            <label for="level">Change Character Level</label>
+            <input type="text" name="level" value={{ row.level }}>
             <input type="submit" value="Update" id="submit">
             </form>
     </fieldset>

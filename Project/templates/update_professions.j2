@@ -13,15 +13,17 @@
     <fieldset>
         <h1> Update Character's Professions</h1>
         <form action="/update_professions/{{id}}" method="post">
-            <label for="name">Character Name</label>
-            <input type="text" name="name">
-            <label for="professions">Select Profession</label>
-            <select name="professions" id="professions">
-                <option value="smith">Smith</option>
-                <option value="alchemist">Alchemist</option>
-                <option value="butcher">Butcher</option>
-                <option value="baker">Baker</option>
-                <option value="engineer">Engineer</option>
+            <label for="professionName">Current Profession</label>
+            <input type="text" name="professionName"  value={{ row.professionName }}>
+            <label for="professions">Select a New Profession</label>
+            <select name="professionId"  value={{ row.professionId }}>
+                <option> </option>
+                <option value='1'>Alchemy</option>
+                <option value='2'>Blacksmithing</option>
+                <option value='3'>Enchanting</option>
+                <option value='4'>Engineering</option>
+                <option value='5'>Herbalism</option>
+                <option value='6'>Mining</option>
             </select>
         <input type="submit" value="Update" id="submit">
         </form>

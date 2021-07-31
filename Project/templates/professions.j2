@@ -22,66 +22,36 @@
    </div>
 
     <fieldset>
-
-        <h1> Add Characters to a Profession </h1>
+        <h1> Add a Profession </h1>
         <form action="/professions" method="post">
-            <label for="name">Character Name</label>
-            <input type="text" name="name">
-            <label for="professions">Select Profession</label>
-            <select name="professions" id="professions">
-                <option value="smith">Smith</option>
-                <option value="alchemist">Alchemist</option>
-                <option value="butcher">Butcher</option>
-                <option value="baker">Baker</option>
-                <option value="engineer">Engineer</option>
-            </select>
-        <input type="submit" value="Add" id="submit">
+            <label for="professionName">Profession Name</label>
+            <input type="text" name="professionName">
+             <input type="submit" value="Add" id="submit">
         </form>
     </fieldset>
 
     <fieldset>
-        <h1> Find Characters by Profession </h1>
-        <form action="/professions" method="get">
-            <label for="professions">Select Profession</label>
-            <select name="professions" name="professions">
-                <option value="smith">Smith</option>
-                <option value="alchemist">Alchemist</option>
-                <option value="butcher">Butcher</option>
-                <option value="baker">Baker</option>
-                <option value="engineer">Engineer</option>
+        <h1>Profession</h1>
 
-            </select>
-            <input type="submit" value="Search" id="submit">
-        </form>            
-        
+        <table border='2'>
+            <thead>
+                <tr>
+                    <th>Profession</th>
+                    <th> </th>
+                    <th> </th>
+                </tr>
+            </thead>
+                <tbody>
+                    {% for row in rows %}
+                    <tr>
+                        <td> {{ row.professionName }} </td>
+                        <td><button onclick="window.location.href='/update_professions/{{ row.professionId }}';">Update</button></td>
+                        <td><button onclick="window.location.href='/delete_professions/{{ row.professionId }}';">Remove</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
     </fieldset>
-
-
-            <fieldset>
-                <h1>Characters by Profession</h1>
-        
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Profession</th>
-                            <th>Character</th>
-                            <th>Level</th>
-                            <th> </th>
-                            <th> </th>
-                            <th> </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Engineer</td>
-                            <td>CobraKai</td>
-                            <td>100</td>
-                            <td><button onclick="window.location.href='/update_professions/1';">Update</button></td>
-                            <td><button>Remove</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </fieldset>
 </body>
 </html>
 

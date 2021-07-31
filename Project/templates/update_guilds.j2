@@ -12,10 +12,9 @@
     <fieldset>
         <h1> Change Character's Guild </h1>
         <form action="/update_guilds/{{id}}" method="post">
-            <label for="character">Character Name</label>
-            <input type="text" name="character">
-            <label for="guild">Guild Name</label>
-            <input type="text" name="guild">
+            <label for="guildName">Guild Name</label>
+            <input type="text" name="guildName" value="{{ row.guildName }}">
+            <input type="hidden" name="guildId" value={{ row.guildId }}>
             <input type="submit" value="Update" id="submit">
         </form>
     </fieldset>

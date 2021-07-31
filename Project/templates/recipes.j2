@@ -31,11 +31,13 @@
     
                 <label for="professions">Select Profession</label>
                 <select name="professions" id="professions">
-                    <option value="smith">Smith</option>
-                    <option value="alchemist">Alchemist</option>
-                    <option value="butcher">Butcher</option>
-                    <option value="baker">Baker</option>
-                    <option value="engineer">Engineer</option>
+                    <option> </option>
+                    <option value=1>Alchemy</option>
+                    <option value=2>Blacksmithing</option>
+                    <option value=3>Enchanting</option>
+                    <option value=4>Engineering</option>
+                    <option value=5>Herbalism</option>
+                    <option value=6>Mining</option>
                 </select>
             <input type="submit" value="Add" id="submit">
             </form>
@@ -53,12 +55,14 @@
             <input type="text" name="ingredients">
 
             <label for="professions">Select Profession</label>
-            <select name="professions" id="professions">
-                <option value="smith">Smith</option>
-                <option value="alchemist">Alchemist</option>
-                <option value="butcher">Butcher</option>
-                <option value="baker">Baker</option>
-                <option value="engineer">Engineer</option>
+            <select name="professions" name="professions">
+                <option> </option>
+                <option value=1>Alchemy</option>
+                <option value=2>Blacksmithing</option>
+                <option value=3>Enchanting</option>
+                <option value=4>Engineering</option>
+                <option value=5>Herbalism</option>
+                <option value=6>Mining</option>
             </select>
             <input type="submit" value="Search" id="submit">
         </form>
@@ -69,30 +73,27 @@
             <fieldset>
                 <h1>Available Recipes</h1>
         
-                <table>
+                <table border='2'>
                     <thead>
                         <tr>
-                            <th>Profession</th>
                             <th>Recipe</th>
-                            <th>Ingredients</th>
+                            <th>Level Requirement</th>
                             <th> </th>
-                            <th> </th>
-                            <th> </th>
+                            <th> </th>            
                         </tr>
                     </thead>
                     <tbody>
+                        {% for row in rows %}
                         <tr>
-                            <td>Alchemist</td>
-                            <td>Herbs</td>
-                            <td>Potion of telekenisis</td>
-                            <td><button onclick="window.location.href='/update_recipes/1';">Update</button></td>
-                            <td><button>Remove</button></td>
+                            <td> {{ row.recipeName }} </td>
+                            <td> {{ row.levelRequirement }} </td>
+                            <td><button onclick="window.location.href='/update_recipes/{{ row.recipeId }}';">Update</button></td>
+                            <td><button onclick="window.location.href='/delete_recipes/{{ row.recipeId }}';">Remove</button></td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </fieldset>
 
 </body>
 </html>
-
-

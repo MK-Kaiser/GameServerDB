@@ -22,10 +22,15 @@
 
 
     <fieldset>
+    <!-- currently breaks on userEmail @ symbol when passed as query -->
             <h1> Create Character </h1>
             <form action="/characters" method="post">
-                <label for="character_name">Character Name</label>
-                <input type="text" name="character_name">
+                <label for="charName">Character Name</label>
+                <input type="text" name="charName">
+                <label for="level">Character Level</label>
+                <input type="text" name="level">
+                <label for="userEmail">User Email</label>
+                <input type="text" name="userEmail">
             <input type="submit" value="Create" id="submit">
             </form>
 
@@ -34,46 +39,33 @@
     <fieldset>
         <h1> Find Characters by Name </h1>
         <form action="/characters" method="get">
-            <label for="character_name">Search for a character</label>
-            <input type="text" name="character_name">
+            <label for="charName">Search for a character</label>
+            <input type="text" name="charName">
             <input type="submit" value="Search" id="submit">
         </form>
 
     </fieldset>
 
     <fieldset>
-
-
-
         
-                <table>
+                <table border='2'>
                     <thead>
                         <tr>
                             <th> Name  </th>
-                            <th> Guild </th>
                             <th> Level  </th>
-                            <th> Professions</th>
+                            <th> </th>
                             <th> </th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for row in rows %}
                         <tr>
-                            <td>character1</td>
-                            <td>Templars</td>
-                            <td>99</td>
-                            <td></td>
-                            <td><button onclick="window.location.href='/update_characters/1';">Update</button></td>
-                            <td><button>Remove</button></td>
+                            <td> {{ row.charName }} </td>
+                            <td> {{ row.level }} </td>
+                            <td><button onclick="window.location.href='/update_characters/{{ row.userId }}';">Update</button></td>
+                            <td><button onclick="window.location.href='/delete_characters/{{ row.userId }}';">Remove</button></td>
                         </tr>
-
-                        <tr>
-                            <td>character2</td>
-                            <td>Templars</td>
-                            <td>9</td>
-                            <td>Mages</td>
-                            <td><button onclick="window.location.href='/update_characters/2';">Update</button></td>
-                            <td><button>Remove</button></td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </fieldset>
