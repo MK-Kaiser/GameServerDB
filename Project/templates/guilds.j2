@@ -21,22 +21,20 @@
     </div>
 
     <fieldset>
-            <h1> Add Character to Guild </h1>
+            <h1> Add a Guild </h1>
             <form action="/guilds" method="post">
-                <label for="character">Character Name</label>
-                <input type="text" name="character">
-                <label for="guild">Guild Name</label>
-                <input type="text" name="guild">
+                <label for="guildName">Guild Name</label>
+                <input type="text" name="guildName">
                 <input type="submit" value="Add" id="submit">
             </form>
 
     </fieldset>
 
     <fieldset>
-        <h1> Find Characters by Guild </h1>
+        <h1> Find a Guild </h1>
         <form action="/guilds" method="get">
-            <label for="guild">Search for a guild</label>
-            <input type="text" name="guild">
+            <label for="guildName">Search for a guild</label>
+            <input type="text" name="guildName">
             <input type="submit" value="Search" id="submit">
         </form>
     </fieldset>
@@ -47,7 +45,7 @@
                 <table border='2'>
                     <thead>
                         <tr>
-                            <th>Guild Name  </th>
+                            <th>Guild Name </th>
                             <th> </th>
                             <th> </th>
                         </tr>
