@@ -69,7 +69,7 @@
                             <td> {{ row.lastName }} </td>
                             <td> {{ row.password }} </td>
                             <td><button onclick="window.location.href='/update_users/{{ row.userId }}';">Update</button></td>
-                            <td><button onclick="window.location.href='/delete_users/{{ row.userId }}';">Remove</button></td>
+                            <td><button onclick="window.location.href='/delete_users/{{ row.userEmail }}';">Remove</button></td>
                         </tr>
                         {% endfor %}
                     </tbody>

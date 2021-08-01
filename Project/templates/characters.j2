@@ -22,7 +22,6 @@
 
 
     <fieldset>
-    <!-- currently breaks on userEmail @ symbol when passed as query -->
             <h1> Create Character </h1>
             <form action="/characters" method="post">
                 <label for="charName">Character Name</label>
@@ -63,7 +62,7 @@
                             <td> {{ row.charName }} </td>
                             <td> {{ row.level }} </td>
                             <td><button onclick="window.location.href='/update_characters/{{ row.userId }}';">Update</button></td>
-                            <td><button onclick="window.location.href='/delete_characters/{{ row.userId }}';">Remove</button></td>
+                            <td><button onclick="window.location.href='/delete_characters/{{ row.charName }}';">Remove</button></td>
                         </tr>
                         {% endfor %}
                     </tbody>

@@ -13,21 +13,21 @@
     <fieldset>
        
         <h1> Update a Recipe </h1>
-        <form action="/update_recipes/{{id}}" method="post">
+        <form action="/update_recipes/{{ row.recipeId }}" method="post">
             <label for="recipeName">Recipe name</label>
             <input type="text" name="recipeName" value="{{ row.recipeName }}">
             <label for="levelRequirement">Level Requirement</label>
             <input type="text" name="levelRequirement" value={{ row.levelRequirement }}>
 
-            <label for="professions">Select Profession</label>
-            <select name="professions" name="professions" value={{ row.professionId }}>
+            <label for="professionId">Select Profession</label>
+            <select name="professionId" value={{ row.professionId }}>
                 <option> </option>
-                <option value='1'>Alchemy</option>
-                <option value='2'>Blacksmithing</option>
-                <option value='3'>Enchanting</option>
-                <option value='4'>Engineering</option>
-                <option value='5'>Herbalism</option>
-                <option value='6'>Mining</option>
+                <option name='professionId' value=1>Alchemy</option>
+                <option name='professionId' value=2>Blacksmithing</option>
+                <option name='professionId' value=3>Enchanting</option>
+                <option name='professionId' value=4>Engineering</option>
+                <option name='professionId' value=5>Herbalism</option>
+                <option name='professionId' value=6>Mining</option>
 
             </select>
         <input type="submit" value="Update" id="submit">

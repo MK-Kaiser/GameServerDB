@@ -54,7 +54,7 @@
                         <tr>
                             <td> {{ row.guildName }} </td>
                             <td><button onclick="window.location.href='/update_guilds/{{ row.guildId }}';">Update</button></td>
-                            <td><button window.location.href='/delete_guilds/{{ row.guildId }}';">Remove</button></td>
+                            <td><button onclick="window.location.href='/delete_guilds/{{ row.guildId }}';">Remove</button></td>
                         </tr>
                         {% endfor %}
                 </table>

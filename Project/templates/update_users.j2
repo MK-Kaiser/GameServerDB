@@ -12,12 +12,12 @@
   
     <fieldset>
         <h1> Update User </h1>
-        <form action="/users" method="post">
-            <label for="email">email address</label>
+        <form action="/update_users/{{ row.userId }}" method="post">
+            <label for="userEmail">email address</label>
             <input type="text" name="userEmail" value={{ row.userEmail }}>
-            <label for="firstname">firstname</label>
+            <label for="firstName">firstname</label>
             <input type="text" name="firstName" value={{ row.firstName }}>
-            <label for="lastname">lastname</label>
+            <label for="lastName">lastname</label>
             <input type="text" name="lastName" value={{ row.lastName }}>
             <label for="password">password</label>
             <input type="password" name="password"  value="{{ row.password }}">
