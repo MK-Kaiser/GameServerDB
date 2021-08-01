@@ -44,8 +44,6 @@ def characters():
         db.execute_query(db_connection, query, data)
         return redirect('/characters')
 
-
-
     else:
         query = "SELECT charName, level, userId FROM GameCharacters;"
         cursor = db.execute_query(db_connection=db_connection, query=query)
@@ -53,38 +51,35 @@ def characters():
         print(results)
         return render_template("characters.j2", rows=results)
 
-@app.route('/update_characters/<int:id>', methods=['GET', 'POST'] )
-def update_characters(id):
+@app.route('/update_characters/<int:userId>', methods=['GET', 'POST'] )
+def update_characters(userId):
     db_connection = db.connect_to_database()
     if request.method == 'POST':
-        charName= request.form['charName']
-#    query = "SELECT * FROM bsg_people;"
-#    cursor = db.execute_query(db_connection=db_connection, query=query)
-#    results = cursor.fetchall()
-        print('Updated character name to:', charName)
-        return render_template("update_characters.j2", result=charName)
+        charName = request.form['charName']
+        level = request.form['level']
+        query = 'UPDATE GameCharacters SET charName = %s, level = %s WHERE userId = %s'
+        data = (charName, level, userId)
+        db.execute_query(db_connection, query, data)
+        return redirect("/characters")
 
     else:
-        query = 'SELECT charName, level, userId FROM GameCharacters WHERE userId = %s;' % (id)
+        '''Right now it is pulling first character in db owned by that user, need to get exact char match on charName and userId'''
+        query = 'SELECT charName, level, userId FROM GameCharacters WHERE userId = %s;' % (userId)
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchone()
         print(results)
         return render_template("update_characters.j2", row=results)
 
-@app.route('/delete_characters/<int:id>', methods=['GET', 'POST'] )
-def delete_characters(id):
+@app.route('/delete_characters/<charName>', methods=['GET', 'POST'] )
+def delete_characters(charName):
+    '''removes character by specified name'''
     db_connection = db.connect_to_database()
-    if request.method == "POST":
-        character = request.form['character_name']
-#    query = "SELECT * FROM bsg_people;"
-#    cursor = db.execute_query(db_connection=db_connection, query=query)
-#    results = cursor.fetchall()
-        print(character)
-        query = "SELECT charName, level, userId FROM GameCharacters;"
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
-        print(results)
-        return render_template("characters.j2", rows=results)
+    if request.method == 'GET':
+        print(charName)
+        query = 'DELETE FROM GameCharacters WHERE charName = (%s)'
+        data = (charName,)
+        result = db.execute_query(db_connection, query, data)
+        return redirect('/characters')
 
     else:
         return render_template("characters.j2")
@@ -100,14 +95,6 @@ def guilds():
         data = (guildName,)
         db.execute_query(db_connection, query, data)
         return redirect('/guilds')
-
-
-        # guildName = request.form['guildName']
-        # query = 'INSERT INTO GameGuilds (guildName) Values %s;'
-        # data = (guildName,)
-        # result = db.execute_query(db_connection, query, data)
-
-        # return render_template("guilds.j2")
 
 
     else:
@@ -126,8 +113,7 @@ def update_guilds(id):
         print(guildName, guildId)
         query = 'UPDATE GameGuilds SET guildName = %s WHERE guildId = %s'
         data = (guildName, guildId)
-        result = db.execute_query(db_connection, query, data)
-        print(result)
+        db.execute_query(db_connection, query, data)
         return redirect('/guilds')
 
     else:
@@ -141,14 +127,11 @@ def update_guilds(id):
 @app.route('/delete_guilds/<int:id>',  methods=['GET', 'POST'] )
 def delete_guilds(id):
     db_connection = db.connect_to_database()
-    if request.method == 'POST':
-        result = request.form['character']
-        result += ' '
-        result += request.form['guild']
-#    query = "SELECT * FROM bsg_people;"
-#    cursor = db.execute_query(db_connection=db_connection, query=query)
-#    results = cursor.fetchall()
-        return render_template("guilds.j2", result=result)
+    if request.method == 'GET':
+        query = 'DELETE FROM GameGuilds WHERE guildId = (%s)'
+        data = (id,)
+        result = db.execute_query(db_connection, query, data)
+        return redirect('/guilds')
 
     else:
         return render_template("guilds.j2")
@@ -178,45 +161,35 @@ def users():
         print(results)
         return render_template("users.j2", rows=results)
 
-@app.route('/update_users/<int:id>',  methods=['GET', 'POST'] )
-def update_users(id):
+@app.route('/update_users/<int:userId>',  methods=['GET', 'POST'] )
+def update_users(userId):
     db_connection = db.connect_to_database()
     if request.method == 'POST':
-        result = request.form['email']
-        result += ' '
-        result += request.form['firstname']
-        result += ' '
-        result += request.form['lastname']
-        result += ' '
-        result += request.form['password']
-#    query = "SELECT * FROM bsg_people;"
-#    cursor = db.execute_query(db_connection=db_connection, query=query)
-#    results = cursor.fetchall()
-        return render_template("update_users.j2", result=result)
+        userEmail = request.form['userEmail']
+        firstName = request.form['firstName']
+        lastName = request.form['lastName']
+        password = request.form['password']
+        query = 'UPDATE GameUsers SET userEmail = %s, firstName = %s, lastName = %s, password = %s WHERE userId = %s'
+        data = (userEmail, firstName, lastName, password, userId)
+        db.execute_query(db_connection, query, data)
+        return redirect("/users")
 
     else:
-        query = 'SELECT userEmail, firstName, lastName, password, userId FROM GameUsers WHERE userId = %s;' % (id)
+        query = 'SELECT userEmail, firstName, lastName, password, userId FROM GameUsers WHERE userId = %s;' % (userId)
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchone()
         print(results)
         return render_template("update_users.j2", row=results)
 
 
-@app.route('/delete_users/<int:id>',  methods=['GET', 'POST'] )
-def delete_users(id):
+@app.route('/delete_users/<userEmail>',  methods=['GET', 'POST'] )
+def delete_users(userEmail):
     db_connection = db.connect_to_database()
-    if request.method == 'POST':
-        result = request.form['email']
-        result += ' '
-        result += request.form['firstname']
-        result += ' '
-        result += request.form['lastname']
-        result += ' '
-        result += request.form['password']
-#    query = "SELECT * FROM bsg_people;"
-#    cursor = db.execute_query(db_connection=db_connection, query=query)
-#    results = cursor.fetchall()
-        return render_template("users.j2", result=result)
+    if request.method == 'GET':
+        query = 'DELETE FROM GameUsers WHERE userEmail = (%s)'
+        data = (userEmail,)
+        result = db.execute_query(db_connection, query, data)
+        return redirect('/users')
 
     else:
         return render_template("users.j2")
@@ -226,10 +199,11 @@ def delete_users(id):
 def professions():
     db_connection = db.connect_to_database()
     if request.method == 'POST':
-        '''Not working yet'''
+        '''Not working yet, complains with:
+        CONSTRAINT `CONSTRAINT_1` failed for `cs340_kaisemar`.`GameProfessions`'''
         professionName = request.form['professionName']
         '''Inserts new profession'''
-        query = 'INSERT INTO GameProfessions (professionName) Values %s'
+        query = 'INSERT INTO GameProfessions (professionName) Values (%s)'
         data = (professionName,)
         db.execute_query(db_connection, query, data)
         return redirect('/professions')
@@ -241,19 +215,18 @@ def professions():
         print(results)
         return render_template("professions.j2", rows=results)
 
-@app.route('/update_professions/<int:id>',  methods=['GET', 'POST'] )
-def update_professions(id):
+@app.route('/update_professions/<int:professionId>',  methods=['GET', 'POST'] )
+def update_professions(professionId):
     db_connection = db.connect_to_database()
     if request.method == 'POST':
-        name = request.form['name']
-        print(name)
-#    query = "SELECT * FROM bsg_people;"
-#    cursor = db.execute_query(db_connection=db_connection, query=query)
-#    results = cursor.fetchall()
-        return render_template("update_professions.j2", result=name)
+        professionName = request.form['professionName']
+        query = 'UPDATE GameProfessions SET professionName = %s WHERE professionId = %s'
+        data = (professionName, professionId)
+        db.execute_query(db_connection, query, data)
+        return redirect("/professions")
 
     else:
-        query = 'SELECT professionName, professionId FROM GameProfessions WHERE professionId = %s;' % (id)
+        query = 'SELECT professionName, professionId FROM GameProfessions WHERE professionId = %s;' % (professionId)
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchone()
         print(results)
@@ -262,13 +235,11 @@ def update_professions(id):
 @app.route('/delete_professions/<int:id>',  methods=['GET', 'POST'] )
 def delete_professions(id):
     db_connection = db.connect_to_database()
-    if request.method == 'POST':
-        name = request.form['name']
-        print(name)
-#    query = "SELECT * FROM bsg_people;"
-#    cursor = db.execute_query(db_connection=db_connection, query=query)
-#    results = cursor.fetchall()
-        return render_template("professions.j2", result=name)
+    if request.method == 'GET':
+        query = 'DELETE FROM GameProfessions WHERE professionId = (%s)'
+        data = (id,)
+        result = db.execute_query(db_connection, query, data)
+        return redirect('/professions')
 
     else:
         return render_template("professions.j2")
@@ -293,19 +264,20 @@ def recipes():
         print(results)
         return render_template("recipes.j2", rows=results)
 
-@app.route('/update_recipes/<int:id>',  methods=['GET', 'POST'] )
-def update_recipes(id):
+@app.route('/update_recipes/<int:recipeId>',  methods=['GET', 'POST'] )
+def update_recipes(recipeId):
     db_connection = db.connect_to_database()
     if request.method == 'POST':
-        ingredient = request.form['ingredient']
-        print(ingredient)
-#    query = "SELECT * FROM bsg_people;"
-#    cursor = db.execute_query(db_connection=db_connection, query=query)
-#    results = cursor.fetchall()
-        return render_template("update_recipes.j2", result=ingredient)
+        recipeName = request.form['recipeName']
+        levelRequirement = request.form['levelRequirement']
+        professionId = request.form['professionId']
+        query = 'UPDATE GameProfessionsRecipes SET recipeName = %s, levelRequirement = %s, professionId = %s WHERE recipeId = %s'
+        data = (recipeName, levelRequirement, professionId, recipeId)
+        db.execute_query(db_connection, query, data)
+        return redirect("/recipes")
 
     else:
-        query = 'SELECT recipeName, levelRequirement, professionId, recipeId FROM GameProfessionsRecipes WHERE recipeId = %s;' % (id)
+        query = 'SELECT recipeName, levelRequirement, professionId, recipeId FROM GameProfessionsRecipes WHERE recipeId = %s;' % (recipeId)
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchone()
         print(results)
@@ -314,13 +286,11 @@ def update_recipes(id):
 @app.route('/delete_recipes/<int:id>',  methods=['GET', 'POST'] )
 def delete_recipes(id):
     db_connection = db.connect_to_database()
-    if request.method == 'POST':
-        ingredient = request.form['ingredient']
-        print(ingredient)
-#    query = "SELECT * FROM bsg_people;"
-#    cursor = db.execute_query(db_connection=db_connection, query=query)
-#    results = cursor.fetchall()
-        return render_template("recipes.j2", result=ingredient)
+    if request.method == 'GET':
+        query = 'DELETE FROM GameProfessionsRecipes WHERE recipeId = (%s)'
+        data = (id,)
+        result = db.execute_query(db_connection, query, data)
+        return redirect('/recipes')
 
     else:
         return render_template("recipes.j2")
