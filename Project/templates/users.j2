@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users</title>
     <link rel="stylesheet" href="static/css/style.css">
-
+    <!-- Followed approach shown/taken in sample flask code and course lecture -->
 </head>
 <body>
     <div>
@@ -23,8 +23,9 @@
         <fieldset>
             <h1> Add User </h1>
             <form action="/users" method="post">
+            <!-- Form to add a new user -->
                 <label for="userEmail">email address</label>
-                <input type="text" name="userEmail">
+                <input type="email" name="userEmail">
                 <label for="firstName">firstname</label>
                 <input type="text" name="firstName">
                 <label for="lastName">lastname</label>
@@ -38,9 +39,10 @@
 
     <fieldset>
         <h1> Find User </h1>
+        <!-- Form to search for a user. -->
         <form action="/users" method="get">
-            <label for="character_name">Search for a User by character name</label>
-            <input type="text" name="character_name">
+            <label for="firstName">Search for a User by first name</label>
+            <input type="text" name="firstName">
             <input type="submit" value="Search" id="submit">
         </form>
 
@@ -50,7 +52,8 @@
         <fieldset>
                 <h1>Users</h1>
         
-                <table border='2'>
+                <table border='2' align='center'>
+                <!-- Iterates through rows and places userEmail, firstName, lastName, password into appropriate row. Creates Update and Remove buttons. -->
                     <thead>
                         <tr>
                             <th> Email  </th>

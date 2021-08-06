@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Characters</title>
     <link rel="stylesheet" href="static/css/style.css">
+    <!-- Followed approach shown/taken in sample flask code and course lecture -->
 
 </head>
 <body>
@@ -24,12 +25,18 @@
     <fieldset>
             <h1> Create Character </h1>
             <form action="/characters" method="post">
+            <!-- Add a new character -->
                 <label for="charName">Character Name</label>
                 <input type="text" name="charName">
                 <label for="level">Character Level</label>
                 <input type="text" name="level">
-                <label for="userEmail">User Email</label>
-                <input type="text" name="userEmail">
+                <label for="userEmail"> Choose a User: </label>
+                <select name="userEmail" >
+                    {% for row in rows2 %}
+                    <option value="{{ row.userEmail }}">{{ row.userEmail }}</option>
+                    {% endfor %}
+
+                </select>
             <input type="submit" value="Create" id="submit">
             </form>
 
@@ -37,6 +44,7 @@
 
     <fieldset>
         <h1> Find Characters by Name </h1>
+        <!-- Search for a character by charName -->
         <form action="/characters" method="get">
             <label for="charName">Search for a character</label>
             <input type="text" name="charName">
@@ -47,7 +55,8 @@
 
     <fieldset>
         
-                <table border='2'>
+                <table border='2' align='center'>
+                <!-- Iterates through rows and places charName, level, userId into appropriate cell. Creates Update and Remove buttons. -->
                     <thead>
                         <tr>
                             <th> Name  </th>

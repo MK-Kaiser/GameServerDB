@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipes</title>
     <link rel="stylesheet" href="../static/css/style.css">
-
+    <!-- Followed approach shown/taken in sample flask code and course lecture -->
 </head>
 <body>
     
@@ -14,8 +14,9 @@
        
         <h1> Update a Recipe </h1>
         <form action="/update_recipes/{{ row.recipeId }}" method="post">
+        <!-- Sends updated field data to update_recipes route -->
             <label for="recipeName">Recipe name</label>
-            <input type="text" name="recipeName" value="{{ row.recipeName }}">
+            <p> {{ row.recipeName }} </p>
             <label for="levelRequirement">Level Requirement</label>
             <input type="text" name="levelRequirement" value={{ row.levelRequirement }}>
 

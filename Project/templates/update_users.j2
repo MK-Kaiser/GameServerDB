@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users</title>
     <link rel="stylesheet" href="../static/css/style.css">
-
+    <!-- Followed approach shown/taken in sample flask code and course lecture -->
 </head>
 <body>
   
     <fieldset>
         <h1> Update User </h1>
         <form action="/update_users/{{ row.userId }}" method="post">
+        <!-- submits to update_users route with corresponding fields to update. -->
             <label for="userEmail">email address</label>
             <input type="text" name="userEmail" value={{ row.userEmail }}>
             <label for="firstName">firstname</label>

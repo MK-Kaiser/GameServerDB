@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professions</title>
     <link rel="stylesheet" href="static/css/style.css">
+    <!-- Followed approach shown/taken in sample flask code and course lecture -->
 
 </head>
 <body>
@@ -22,6 +23,10 @@
    </div>
 
     <fieldset>
+        <h1>Profession</h1>
+    </fieldset>
+
+    <fieldset>
         <h1> Add a Profession </h1>
         <form action="/professions" method="post">
             <label for="professionName">Profession Name</label>
@@ -31,22 +36,27 @@
     </fieldset>
 
     <fieldset>
-        <h1>Profession</h1>
+        <h1> Find a Profession </h1>
+        <!-- Form to search for a user. -->
+        <form action="/professions" method="get">
+            <label for="professionName">Search for a Profession</label>
+            <input type="text" name="professionName">
+            <input type="submit" value="Search" id="submit">
+        </form>
+        <p> </p>
 
-        <table border='2'>
+        <table border='2' align='center'>
+        <!-- Iterates through rows and places professionName, professionId into appropriate cell. Creates Update and Remove buttons. -->
+
             <thead>
                 <tr>
-                    <th>Profession</th>
-                    <th> </th>
-                    <th> </th>
+                    <th>Professions</th>
                 </tr>
             </thead>
                 <tbody>
                     {% for row in rows %}
                     <tr>
                         <td> {{ row.professionName }} </td>
-                        <td><button onclick="window.location.href='/update_professions/{{ row.professionId }}';">Update</button></td>
-                        <td><button onclick="window.location.href='/delete_professions/{{ row.professionId }}';">Remove</button></td>
                     </tr>
                     {% endfor %}
                 </tbody>

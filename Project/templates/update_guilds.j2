@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guilds</title>
     <link rel="stylesheet" href="../static/css/style.css">
-
+    <!-- Followed approach shown/taken in sample flask code and course lecture -->
 </head>
 <body>
     <fieldset>
         <h1> Change Guild Name </h1>
         <form action='/update_guilds/{{ row.guildId }}' method='POST'>
+        <!-- Sends field data to update_guilds route -->
             <label for="guildName">Guild Name</label>
             <input type="text" name="guildName" value="{{ row.guildName }}">
             <input type="hidden" name="guildId" value={{ row.guildId }}>

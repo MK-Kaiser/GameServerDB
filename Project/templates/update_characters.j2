@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Character</title>
     <link rel="stylesheet" href="../static/css/style.css">
+    <!-- Followed approach shown/taken in sample flask code and course lecture -->
 </head>
 
 <body>
@@ -13,6 +14,7 @@
     <fieldset>
             <h1> Update Character </h1>
             <form action="/update_characters/{{ row.userId }}" method="post">
+            <!-- Sends field data to update_characters route -->
             <label for="charName">Change Character Name</label>
             <input type="text" name="charName" value={{ row.charName }}>
             <label for="level">Change Character Level</label>

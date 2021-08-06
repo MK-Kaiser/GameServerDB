@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipes</title>
     <link rel="stylesheet" href="static/css/style.css">
-
+    <!-- Followed approach shown/taken in sample flask code and course lecture -->
 </head>
 <body>
     <div>
@@ -24,6 +24,7 @@
         <div>
             <h1> Add a Recipe </h1>
             <form action="/recipes" method="post">
+            <!-- Add a new recipe -->
                 <label for="recipeName">Recipe name</label>
                 <input type="text" name="recipeName">
                 <label for="levelRequirement">Level Requirement</label>
@@ -49,21 +50,10 @@
         <div>
         <h1> Find a Recipe </h1>
         <form action="/recipes" method="get">
-            <label for="recipe_names">Recipe name</label>
-            <input type="text" name="recipe_names">
-            <label for="ingredients">Ingredient</label>
-            <input type="text" name="ingredients">
+        <!-- Search for a recipe by recipeName -->
+            <label for="recipeName">Recipe name</label>
+            <input type="text" name="recipeName">
 
-            <label for="professions">Select Profession</label>
-            <select name="professions" name="professions">
-                <option> </option>
-                <option value=1>Alchemy</option>
-                <option value=2>Blacksmithing</option>
-                <option value=3>Enchanting</option>
-                <option value=4>Engineering</option>
-                <option value=5>Herbalism</option>
-                <option value=6>Mining</option>
-            </select>
             <input type="submit" value="Search" id="submit">
         </form>
         </div>
@@ -73,7 +63,9 @@
             <fieldset>
                 <h1>Available Recipes</h1>
         
-                <table border='2'>
+                <table border='2' align='center'>
+                <!-- Iterates through rows and places recipeName, levelRequirement, recipeId into appropriate cell. Creates Update and Remove buttons. -->
+
                     <thead>
                         <tr>
                             <th>Recipe</th>

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guilds</title>
     <link rel="stylesheet" href="static/css/style.css">
+    <!-- Followed approach shown/taken in sample flask code and course lecture -->
 
 </head>
 <body>
@@ -23,6 +24,7 @@
     <fieldset>
             <h1> Add a Guild </h1>
             <form action="/guilds" method="post">
+            <!-- Add a new guild -->
                 <label for="guildName">Guild Name</label>
                 <input type="text" name="guildName">
                 <input type="submit" value="Add" id="submit">
@@ -33,6 +35,7 @@
     <fieldset>
         <h1> Find a Guild </h1>
         <form action="/guilds" method="get">
+        <!-- Search for a guild by guildName -->
             <label for="guildName">Search for a guild</label>
             <input type="text" name="guildName">
             <input type="submit" value="Search" id="submit">
@@ -42,7 +45,9 @@
     <fieldset>
                 <h1>Guilds</h1>
         
-                <table border='2'>
+                <table border='2' align='center'>
+                <!-- Iterates through rows and places guildName, guildId into appropriate cell. Creates Update and Remove buttons. -->
+
                     <thead>
                         <tr>
                             <th>Guild Name </th>
