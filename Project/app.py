@@ -3,33 +3,21 @@ import os
 import database.db_connector as db
 
 # Configuration
-
 app = Flask(__name__)
 
 # Routes 
-
+'''A large portion of code based on provided starter code and following along with flask lecture videos.'''
 @app.route('/')
 def root():
     return render_template("main.j2")
 
 @app.route('/characters', methods=['GET', 'POST'] )
 def characters():
-    ''' Intercepts POST requests and adds new character based on form inputs.
+    ''' Intercepts POST requests and adds new character tied to a specific user based on form inputs and a userEmail to userId lookup.
         Intercepts GET requests and displays table with all current characters.
     '''
     db_connection = db.connect_to_database()
     if request.method == 'POST':
-        '''good code for enumerating current highest id and incrementing.'''
-
-        # query = 'SELECT max( userId ) FROM GameCharacters;'
-        # cursor = db.execute_query(db_connection=db_connection, query=query)
-        # highestId = cursor.fetchone()
-        # userId = int(highestId['max( userId )'])
-        # print(type(userId), userId)
-        # userId = str(userId + 1)
-        # print('highestId is naturally a: ', type(highestId['max( userId )']))
-
-        '''Lookup userId from provided email'''
         userEmail = request.form['userEmail']
         charName = request.form['charName']
         level = request.form['level']
@@ -42,17 +30,36 @@ def characters():
         query = 'INSERT INTO GameCharacters (charName, userId, level) Values (%s, %s, %s)'
         data = (charName, userId, level)
         db.execute_query(db_connection, query, data)
+        '''https://pythonbasics.org/flask-redirect-and-errors/'''
         return redirect('/characters')
 
     else:
-        query = "SELECT charName, level, userId FROM GameCharacters;"
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
-        print(results)
-        return render_template("characters.j2", rows=results)
+        charName = request.args.get('charName')
+        if charName:
+            query = "SELECT GameUsers.userEmail AS userEmail, GameCharacters.charName AS charName, GameCharacters.userId, GameCharacters.level FROM GameUsers, GameCharacters WHERE charName Like %s GROUP BY charName HAVING COUNT(charName) > 1;"
+            data = ('%'+charName+'%',)
+            cursor = db.execute_query(db_connection, query, data)
+            results = cursor.fetchall()
+            print(results)
+            return render_template("characters.j2", rows=results)
+
+        else:
+            # How to pass multiple values to same render_template: https://flask.palletsprojects.com/en/2.0.x/api/
+            query = "SELECT GameUsers.userEmail AS userEmail, GameUsers.userId as userId, GameCharacters.charName AS charName, GameCharacters.level FROM GameUsers, GameCharacters GROUP BY charName HAVING COUNT(charName) > 1;"
+            cursor = db.execute_query(db_connection, query=query)
+            results = cursor.fetchall()
+            print(results)
+            query2 = "SELECT userEmail, userId FROM GameUsers GROUP BY userId;"
+            cursor2 = db.execute_query(db_connection, query2)
+            results2 = cursor2.fetchall()
+            print(results2)
+            return render_template("characters.j2", rows=results, rows2=results2)
 
 @app.route('/update_characters/<int:userId>', methods=['GET', 'POST'] )
 def update_characters(userId):
+    ''' Intercepts POST requests and updates details of an existing character based on form inputs.
+        Intercepts GET requests and displays table row with the selected character's details pre-populated.
+    '''
     db_connection = db.connect_to_database()
     if request.method == 'POST':
         charName = request.form['charName']
@@ -72,7 +79,7 @@ def update_characters(userId):
 
 @app.route('/delete_characters/<charName>', methods=['GET', 'POST'] )
 def delete_characters(charName):
-    '''removes character by specified name'''
+    '''removes character by specified charName'''
     db_connection = db.connect_to_database()
     if request.method == 'GET':
         print(charName)
@@ -87,25 +94,39 @@ def delete_characters(charName):
 
 @app.route('/guilds',  methods=['GET', 'POST'] )
 def guilds():
+    ''' Intercepts POST requests and adds new guild based on form inputs.
+        Intercepts GET requests and displays table with all current guilds.
+    '''
     db_connection = db.connect_to_database()
     if request.method == 'POST':
         guildName = request.form['guildName']
-        '''Inserts new guild'''
         query = 'INSERT INTO GameGuilds (guildName) Values (%s)'
         data = (guildName,)
         db.execute_query(db_connection, query, data)
         return redirect('/guilds')
 
-
     else:
-        query = "SELECT guildName, guildId FROM GameGuilds;"
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
-        print(results)
-        return render_template("guilds.j2", rows=results)
+        guildName = request.args.get('guildName')
+        if guildName:
+            query = "SELECT guildName, guildId FROM GameGuilds WHERE guildName LIKE %s "
+            data = (guildName+'%',)
+            cursor = db.execute_query(db_connection, query, data)
+            results = cursor.fetchall()
+            print(results)
+            return render_template("guilds.j2", rows=results)
+
+        else:
+            query = "SELECT guildName, guildId FROM GameGuilds;"
+            cursor = db.execute_query(db_connection, query)
+            results = cursor.fetchall()
+            print(results)
+            return render_template("guilds.j2", rows=results)
 
 @app.route('/update_guilds/<int:id>',  methods=['GET', 'POST'] )
 def update_guilds(id):
+    ''' Intercepts POST requests and updates details of an existing guild based on form inputs.
+        Intercepts GET requests and displays table row with the selected guild's details pre-populated.
+    '''
     db_connection = db.connect_to_database()
     if request.method == 'POST':
         guildName = request.form['guildName']
@@ -117,7 +138,6 @@ def update_guilds(id):
         return redirect('/guilds')
 
     else:
-        '''prepopulates the update page with the selected guild to update'''
         query = 'SELECT guildName, guildId FROM GameGuilds WHERE guildId = %s;' % (id)
         cursor = db.execute_query(db_connection=db_connection, query=query)
         results = cursor.fetchone()
@@ -126,6 +146,9 @@ def update_guilds(id):
 
 @app.route('/delete_guilds/<int:id>',  methods=['GET', 'POST'] )
 def delete_guilds(id):
+    ''' 
+        Intercepts GET requests and removes the selected row by guildId.
+    '''
     db_connection = db.connect_to_database()
     if request.method == 'GET':
         query = 'DELETE FROM GameGuilds WHERE guildId = (%s)'
@@ -139,9 +162,11 @@ def delete_guilds(id):
 
 @app.route('/users',  methods=['GET', 'POST'] )
 def users():
+    ''' Intercepts POST requests and adds new user based on form inputs.
+        Intercepts GET requests and displays table with all current users.
+    '''
     db_connection = db.connect_to_database()
     if request.method == 'POST':
-        '''Inserts new user'''
         userEmail = request.form['userEmail']
         firstName = request.form['firstName']
         lastName = request.form['lastName']
@@ -155,14 +180,27 @@ def users():
         return redirect("/users")
 
     else:
-        query = "SELECT userEmail, firstName, lastName, password, userId FROM GameUsers;"
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
-        print(results)
-        return render_template("users.j2", rows=results)
+        firstName = request.args.get("firstName")
+        if firstName:
+            query = "SELECT userEmail, firstName, lastName, password, userId FROM GameUsers WHERE firstName LIKE %s "
+            data = ('%'+firstName+'%',)
+            cursor = db.execute_query(db_connection, query, data)
+            results = cursor.fetchall()
+            print(results)
+            return render_template("users.j2", rows=results)
+
+        else:
+            query = "SELECT userEmail, firstName, lastName, password, userId FROM GameUsers;"
+            cursor = db.execute_query(db_connection, query)
+            results = cursor.fetchall()
+            print(results)
+            return render_template("users.j2", rows=results)
 
 @app.route('/update_users/<int:userId>',  methods=['GET', 'POST'] )
 def update_users(userId):
+    ''' Intercepts POST requests and updates and existing user based on form inputs.
+        Intercepts GET requests and displays table with all current users.
+    '''
     db_connection = db.connect_to_database()
     if request.method == 'POST':
         userEmail = request.form['userEmail']
@@ -184,6 +222,7 @@ def update_users(userId):
 
 @app.route('/delete_users/<userEmail>',  methods=['GET', 'POST'] )
 def delete_users(userEmail):
+    '''removes a user by provided userEmail'''
     db_connection = db.connect_to_database()
     if request.method == 'GET':
         query = 'DELETE FROM GameUsers WHERE userEmail = (%s)'
@@ -197,6 +236,9 @@ def delete_users(userEmail):
 
 @app.route('/professions',  methods=['GET', 'POST'] )
 def professions():
+    ''' 
+        Intercepts GET requests and displays table with all current profession.
+    '''
     db_connection = db.connect_to_database()
     if request.method == 'POST':
         '''Not working yet, complains with:
@@ -209,44 +251,27 @@ def professions():
         return redirect('/professions')
 
     else:
-        query = "SELECT professionName, professionId FROM GameProfessions;"
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
-        print(results)
-        return render_template("professions.j2", rows=results)
+        professionName = request.args.get('professionName')
+        if professionName:
+            query = "SELECT professionName, professionId FROM GameProfessions WHERE professionName LIKE %s "
+            data = (professionName+'%',)
+            cursor = db.execute_query(db_connection, query, data)
+            results = cursor.fetchall()
+            return render_template("professions.j2", rows=results)
 
-@app.route('/update_professions/<int:professionId>',  methods=['GET', 'POST'] )
-def update_professions(professionId):
-    db_connection = db.connect_to_database()
-    if request.method == 'POST':
-        professionName = request.form['professionName']
-        query = 'UPDATE GameProfessions SET professionName = %s WHERE professionId = %s'
-        data = (professionName, professionId)
-        db.execute_query(db_connection, query, data)
-        return redirect("/professions")
-
-    else:
-        query = 'SELECT professionName, professionId FROM GameProfessions WHERE professionId = %s;' % (professionId)
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchone()
-        print(results)
-        return render_template("update_professions.j2", row=results)
-
-@app.route('/delete_professions/<int:id>',  methods=['GET', 'POST'] )
-def delete_professions(id):
-    db_connection = db.connect_to_database()
-    if request.method == 'GET':
-        query = 'DELETE FROM GameProfessions WHERE professionId = (%s)'
-        data = (id,)
-        result = db.execute_query(db_connection, query, data)
-        return redirect('/professions')
-
-    else:
-        return render_template("professions.j2")
+        else:
+            query = "SELECT professionName, professionId FROM GameProfessions;"
+            cursor = db.execute_query(db_connection=db_connection, query=query)
+            results = cursor.fetchall()
+            print(results)
+            return render_template("professions.j2", rows=results)
 
 
 @app.route('/recipes',  methods=['GET', 'POST'] )
 def recipes():
+    ''' Intercepts POST requests and adds new recipe based on form inputs.
+        Intercepts GET requests and displays table with all current recipes.
+    '''
     db_connection = db.connect_to_database()
     if request.method == 'POST':
         recipeName = request.form['recipeName']
@@ -258,14 +283,28 @@ def recipes():
         return redirect('/recipes')
 
     else:
-        query = "SELECT recipeName, levelRequirement, professionId, recipeId FROM GameProfessionsRecipes;"
-        cursor = db.execute_query(db_connection=db_connection, query=query)
-        results = cursor.fetchall()
-        print(results)
-        return render_template("recipes.j2", rows=results)
+        recipeName = request.args.get('recipeName')
+        levelRequirement = request.args.get('levelRequirement')
+        if recipeName or levelRequirement:
+            query = "SELECT recipeName, levelRequirement, professionId, recipeId FROM GameProfessionsRecipes WHERE recipeName LIKE %s "
+            data = (recipeName+'%',)
+            cursor = db.execute_query(db_connection, query, data)
+            results = cursor.fetchall()
+            return render_template("recipes.j2", rows=results)
+
+
+        else:
+            query = "SELECT recipeName, levelRequirement, professionId, recipeId FROM GameProfessionsRecipes;"
+            cursor = db.execute_query(db_connection, query)
+            results = cursor.fetchall()
+            print(results)
+            return render_template("recipes.j2", rows=results)
 
 @app.route('/update_recipes/<int:recipeId>',  methods=['GET', 'POST'] )
 def update_recipes(recipeId):
+    ''' Intercepts POST requests and updates an existing recipe based on form inputs.
+        Intercepts GET requests and displays table with all current recipes.
+    '''
     db_connection = db.connect_to_database()
     if request.method == 'POST':
         recipeName = request.form['recipeName']
@@ -285,6 +324,7 @@ def update_recipes(recipeId):
 
 @app.route('/delete_recipes/<int:id>',  methods=['GET', 'POST'] )
 def delete_recipes(id):
+    '''removes a recipe by recipeId.'''
     db_connection = db.connect_to_database()
     if request.method == 'GET':
         query = 'DELETE FROM GameProfessionsRecipes WHERE recipeId = (%s)'
@@ -296,9 +336,10 @@ def delete_recipes(id):
         return render_template("recipes.j2")
 
 
-
 # Listener
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8333))
-    app.run(port=port, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True) #flip/www
+    # app.run(port=port, debug=True) #localhost
+
